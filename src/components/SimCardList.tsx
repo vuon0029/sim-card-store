@@ -18,7 +18,6 @@ export function SimCardList({ simCards }: SimCardListProps) {
 
   return (
     <div className="sim-card-list">
-      <p className="results-count">Tìm thấy <strong>{simCards.length}</strong> số</p>
       <div className="sim-card-grid">
         {simCards.map((simCard) => (
           <SimCardItem key={simCard.id} simCard={simCard} />

@@ -1,6 +1,7 @@
 import type { SimCard } from '../types';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/formatPrice';
+import { CarrierLogo } from './CarrierLogo';
 
 interface SimCardItemProps {
   simCard: SimCard;
@@ -20,11 +21,11 @@ export function SimCardItem({ simCard }: SimCardItemProps) {
 
   return (
     <div className={`sim-card-item ${inCart ? 'in-cart' : ''}`}>
-      <div className="sim-card-number">{simCard.number}</div>
-      <div className="sim-card-details">
-        <span className="sim-card-carrier">{simCard.carrier}</span>
+      <div className="sim-card-top">
+        <CarrierLogo carrier={simCard.carrier} />
         <span className="sim-card-category">{simCard.category}</span>
       </div>
+      <div className="sim-card-number">{simCard.number}</div>
       {simCard.description && (
         <p className="sim-card-description">{simCard.description}</p>
       )}

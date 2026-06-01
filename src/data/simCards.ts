@@ -12,6 +12,10 @@ export const simCards: SimCard[] = [
   { id: '8', number: '+84 945 78 78 78', carrier: 'Viettel', category: 'Phong Thủy', price: 35000000, description: 'Thất phát liên hoàn' },
   { id: '9', number: '+84 912 345 678', carrier: 'Viettel', category: 'Số Đẹp', price: 20000000, description: 'Dãy số tiến hoàn hảo' },
   { id: '10', number: '+84 978 999 888', carrier: 'Viettel', category: 'Giá Rẻ', price: 5000000, description: 'Số cửu phát' },
+  { id: '33', number: '+84 966 88 88 88', carrier: 'Viettel', category: 'Lộc Phát', price: 250000000, description: 'Ngũ bát đại phát' },
+  { id: '34', number: '+84 983 39 39 39', carrier: 'Viettel', category: 'Thần Tài', price: 100000000, description: 'Tam cửu thần tài' },
+  { id: '35', number: '+84 947 666 888', carrier: 'Viettel', category: 'Phong Thủy', price: 32000000, description: 'Lộc phát đại cát' },
+  { id: '36', number: '+84 915 678 910', carrier: 'Viettel', category: 'Giá Rẻ', price: 3500000, description: 'Số tiến tự nhiên' },
 
   // Mobifone numbers
   { id: '11', number: '+84 909 888 999', carrier: 'Mobifone', category: 'Lộc Phát', price: 65000000, description: 'Phát cửu phát' },
@@ -22,6 +26,8 @@ export const simCards: SimCard[] = [
   { id: '16', number: '+84 918 777 888', carrier: 'Mobifone', category: 'Phong Thủy', price: 30000000, description: 'Thất tiến bát phát' },
   { id: '17', number: '+84 902 456 456', carrier: 'Mobifone', category: 'Giá Rẻ', price: 3000000, description: 'Số lặp đẹp' },
   { id: '18', number: '+84 939 86 86 86', carrier: 'Mobifone', category: 'Phong Thủy', price: 75000000, description: 'Phát lộc phát lộc' },
+  { id: '37', number: '+84 906 99 99 99', carrier: 'Mobifone', category: 'Thần Tài', price: 180000000, description: 'Ngũ cửu thần tài' },
+  { id: '38', number: '+84 931 234 567', carrier: 'Mobifone', category: 'Số Đẹp', price: 11000000, description: 'Tiến đều từ 1' },
 
   // Vinaphone numbers
   { id: '19', number: '+84 888 999 666', carrier: 'Vinaphone', category: 'Lộc Phát', price: 55000000, description: 'Tam cửu lục lộc' },
@@ -31,13 +37,6 @@ export const simCards: SimCard[] = [
   { id: '23', number: '+84 891 888 000', carrier: 'Vinaphone', category: 'Giá Rẻ', price: 4000000, description: 'Tam phát' },
   { id: '24', number: '+84 833 777 999', carrier: 'Vinaphone', category: 'Phong Thủy', price: 40000000, description: 'Thất cửu đại cát' },
   { id: '25', number: '+84 862 66 88 99', carrier: 'Vinaphone', category: 'Phong Thủy', price: 28000000, description: 'Lộc phát cửu' },
-
-  // Vietnamobile numbers
-  { id: '26', number: '+84 562 888 999', carrier: 'Vietnamobile', category: 'Lộc Phát', price: 18000000, description: 'Phát cửu liên hoàn' },
-  { id: '27', number: '+84 528 39 39 39', carrier: 'Vietnamobile', category: 'Thần Tài', price: 35000000, description: 'Thần tài tam kỳ' },
-  { id: '28', number: '+84 567 890 890', carrier: 'Vietnamobile', category: 'Số Đẹp', price: 6000000, description: 'Số lặp đuôi' },
-  { id: '29', number: '+84 523 456 789', carrier: 'Vietnamobile', category: 'Số Đẹp', price: 9000000, description: 'Tiến dài 9 số' },
-  { id: '30', number: '+84 586 66 66 66', carrier: 'Vietnamobile', category: 'Lộc Phát', price: 60000000, description: 'Ngũ lộc đại phát' },
-  { id: '31', number: '+84 592 111 999', carrier: 'Vietnamobile', category: 'Giá Rẻ', price: 2500000, description: 'Nhất cửu' },
-  { id: '32', number: '+84 556 78 78 78', carrier: 'Vietnamobile', category: 'Phong Thủy', price: 22000000, description: 'Thất bát liên hoàn' },
+  { id: '39', number: '+84 856 88 88 88', carrier: 'Vinaphone', category: 'Lộc Phát', price: 160000000, description: 'Ngũ bát vinh phát' },
+  { id: '40', number: '+84 843 567 890', carrier: 'Vinaphone', category: 'Giá Rẻ', price: 2800000, description: 'Số tiến cuối' },
 ];

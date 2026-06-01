@@ -16,9 +16,12 @@ export interface InquiryForm {
   name: string;
   phone: string;
   email: string;
+  idNumber: string; // Số Căn Cước Công Dân
   message?: string;
 }
 
-export type CarrierType = 'Viettel' | 'Mobifone' | 'Vinaphone' | 'Vietnamobile' | 'All';
+export type CarrierType = 'Viettel' | 'Mobifone' | 'Vinaphone' | 'All';
 
 export type CategoryType = 'Phong Thủy' | 'Lộc Phát' | 'Thần Tài' | 'Số Đẹp' | 'Giá Rẻ' | 'All';
+
+export type SortType = 'random' | 'price-asc' | 'price-desc' | 'newest' | 'oldest';

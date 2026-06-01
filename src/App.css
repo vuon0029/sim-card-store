@@ -1,16 +1,19 @@
 /* ===== Global Reset & Variables ===== */
 :root {
-  --primary: #e63946;
-  --primary-hover: #c1121f;
-  --secondary: #457b9d;
-  --accent: #f4a261;
-  --bg: #f8f9fa;
+  --primary: #EE0033;
+  --primary-hover: #cc002b;
+  --secondary: #333333;
+  --accent: #EE0033;
+  --bg: #f5f5f5;
   --bg-card: #ffffff;
-  --text: #1d3557;
-  --text-light: #6c757d;
-  --border: #dee2e6;
+  --text: #1a1a1a;
+  --text-light: #666666;
+  --border: #e0e0e0;
   --success: #2d6a4f;
   --success-bg: #d8f3dc;
+  --charcoal: #2d2d2d;
+  --dark-gray: #444444;
+  --medium-gray: #888888;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --radius: 12px;
@@ -49,7 +52,7 @@ body {
 
 /* ===== Header ===== */
 .header {
-  background: var(--text);
+  background: var(--charcoal);
   color: white;
   padding: 1rem 1.5rem;
   position: sticky;
@@ -166,7 +169,7 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: var(--secondary);
+  border-color: var(--primary);
 }
 
 .filter-chips {
@@ -188,13 +191,179 @@ body {
 }
 
 .filter-chip:hover {
-  border-color: var(--secondary);
-  color: var(--secondary);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .filter-chip.active {
-  background: var(--secondary);
-  border-color: var(--secondary);
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* ===== Price Range Filter ===== */
+.price-range-slider {
+  width: 100%;
+}
+
+.price-range-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.price-slider-container {
+  position: relative;
+  height: 80px;
+}
+
+/* Histogram */
+.price-histogram {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0 9px;
+}
+
+.histogram-bar {
+  flex: 1;
+  background: #e0e0e0;
+  border-radius: 2px 2px 0 0;
+  min-height: 0;
+  transition: background 0.15s;
+}
+
+.histogram-bar.in-range {
+  background: var(--primary);
+  opacity: 0.35;
+}
+
+/* Slider Track */
+.price-track {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.track-bg {
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  right: 9px;
+  height: 4px;
+  transform: translateY(-50%);
+  background: #d0d0d0;
+  border-radius: 2px;
+}
+
+.track-active {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  transform: translateY(-50%);
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  z-index: 2;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+
+.slider-thumb:hover {
+  box-shadow: 0 2px 10px rgba(238, 0, 51, 0.4);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.slider-thumb:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ===== Sort Bar ===== */
+.sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sort-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.sort-chip {
+  padding: 0.35rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.sort-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.sort-chip.active {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
   color: white;
 }
 
@@ -237,6 +406,19 @@ body {
   background: var(--success-bg);
 }
 
+.sim-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.carrier-logo {
+  width: 80px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
 .sim-card-number {
   font-size: 1.35rem;
   font-weight: 700;
@@ -251,7 +433,7 @@ body {
 }
 
 .sim-card-carrier {
-  background: var(--secondary);
+  background: var(--dark-gray);
   color: white;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
@@ -260,8 +442,8 @@ body {
 }
 
 .sim-card-category {
-  background: var(--accent);
-  color: var(--text);
+  background: var(--primary);
+  color: white;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -566,7 +748,7 @@ body {
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--secondary);
+  border-color: var(--primary);
 }
 
 .form-actions {
@@ -600,7 +782,7 @@ body {
 
 /* ===== Footer ===== */
 .footer {
-  background: var(--text);
+  background: var(--charcoal);
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
   padding: 1.5rem;

@@ -1,4 +1,7 @@
 import type { CarrierType, CategoryType } from '../types';
+import { PriceRangeSlider } from './PriceRangeSlider';
+
+export { PRICE_MIN, PRICE_MAX } from './PriceRangeSlider';
 
 interface FilterBarProps {
   searchQuery: string;
@@ -7,9 +10,11 @@ interface FilterBarProps {
   onCarrierChange: (carrier: CarrierType) => void;
   selectedCategory: CategoryType;
   onCategoryChange: (category: CategoryType) => void;
+  priceRange: [number, number];
+  onPriceRangeChange: (range: [number, number]) => void;
 }
 
-const carriers: CarrierType[] = ['All', 'Viettel', 'Mobifone', 'Vinaphone', 'Vietnamobile'];
+const carriers: CarrierType[] = ['All', 'Viettel', 'Mobifone', 'Vinaphone'];
 const categories: CategoryType[] = ['All', 'Phong Thủy', 'Lộc Phát', 'Thần Tài', 'Số Đẹp', 'Giá Rẻ'];
 
 export function FilterBar({
@@ -19,6 +24,8 @@ export function FilterBar({
   onCarrierChange,
   selectedCategory,
   onCategoryChange,
+  priceRange,
+  onPriceRangeChange,
 }: FilterBarProps) {
   return (
     <div className="filter-bar">
@@ -67,6 +74,14 @@ export function FilterBar({
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="filter-section">
+        <label className="filter-label">Khoảng giá</label>
+        <PriceRangeSlider
+          priceRange={priceRange}
+          onPriceRangeChange={onPriceRangeChange}
+        />
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ export function Cart({ isOpen, onClose }: CartProps) {
     name: '',
     phone: '',
     email: '',
+    idNumber: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,7 +49,7 @@ export function Cart({ isOpen, onClose }: CartProps) {
     setTimeout(() => {
       setSubmitSuccess(false);
       setShowInquiryForm(false);
-      setFormData({ name: '', phone: '', email: '', message: '' });
+      setFormData({ name: '', phone: '', email: '', idNumber: '', message: '' });
       clearCart();
       onClose();
     }, 3000);
@@ -111,6 +112,19 @@ export function Cart({ isOpen, onClose }: CartProps) {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="email@example.com"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="inquiry-id">Số Căn Cước Công Dân *</label>
+              <input
+                id="inquiry-id"
+                type="text"
+                required
+                value={formData.idNumber}
+                onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
+                placeholder="001234567890"
+                maxLength={12}
               />
             </div>
 
