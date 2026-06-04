@@ -5,6 +5,7 @@ import { FilterBar, PRICE_MIN, PRICE_MAX } from './components/FilterBar';
 import { SortBar } from './components/SortBar';
 import { SimCardList } from './components/SimCardList';
 import { Cart } from './components/Cart';
+import { ZaloButton } from './components/ZaloButton';
 import { simCards } from './data/simCards';
 import type { CarrierType, CategoryType, SortType, SimCard } from './types';
 import './App.css';
@@ -103,8 +104,33 @@ function AppContent() {
         </div>
       </main>
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* Zalo floating button */}
+      <ZaloButton />
+
       <footer className="footer">
-        <p>© 2024 SIM Số Đẹp Vietnam. Chỉ hiển thị và tư vấn — không mua bán trực tuyến.</p>
+        <div className="footer-content">
+          <div className="footer-info">
+            <h3>SIM Số Đẹp Vietnam</h3>
+            <p>Chuyên cung cấp SIM số đẹp các mạng Viettel, Mobifone, Vinaphone.</p>
+            <p>Chỉ hiển thị và tư vấn — không mua bán trực tuyến.</p>
+          </div>
+          <div className="footer-contact">
+            <h4>Liên hệ tư vấn</h4>
+            <p>📞 Hotline: <a href="tel:0901234567">0901 234 567</a></p>
+            <p>💬 Zalo: <a href="https://zalo.me/0901234567" target="_blank" rel="noopener noreferrer">0901 234 567</a></p>
+            <p>📧 Email: <a href="mailto:contact@simvietnam.vn">contact@simvietnam.vn</a></p>
+            <p>🕐 Thời gian làm việc: 8:00 – 21:00 (T2 – CN)</p>
+          </div>
+          <div className="footer-address">
+            <h4>Địa chỉ</h4>
+            <p>123 Đường ABC, Quận 1</p>
+            <p>TP. Hồ Chí Minh, Việt Nam</p>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>© 2024 SIM Số Đẹp Vietnam. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );

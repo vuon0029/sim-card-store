@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vuon0029.github.io/sim-card-store/sitemap.xml

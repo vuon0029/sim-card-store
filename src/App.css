@@ -135,13 +135,86 @@ body {
 /* ===== Filter Bar ===== */
 .filter-bar {
   background: var(--bg-card);
-  padding: 1.5rem;
+  padding: 0;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.filter-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.filter-toggle:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.filter-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.filter-toggle-icon {
+  font-size: 1.2rem;
+}
+
+.filter-toggle-text {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.filter-active-summary {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-left: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.filter-toggle-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.3s;
+  color: var(--text-light);
+}
+
+.filter-toggle-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.filter-content {
+  padding: 0 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
+}
+
+.filter-content.expanded {
+  max-height: 800px;
+  opacity: 1;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.filter-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 1.5rem;
 }
 
 .filter-section {
@@ -319,16 +392,70 @@ body {
 
 /* ===== Sort Bar ===== */
 .sort-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
   margin-bottom: 1.25rem;
-  padding: 0.75rem 1rem;
   background: var(--bg-card);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.sort-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: border-color 0.2s, background 0.15s;
+}
+
+.sort-toggle:hover {
+  border-color: var(--charcoal);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.sort-toggle-text {
+  white-space: nowrap;
+}
+
+.sort-toggle-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s;
+  color: var(--text-light);
+}
+
+.sort-toggle-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.sort-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+}
+
+.sort-content.expanded {
+  max-height: 200px;
+  opacity: 1;
+  padding: 0 1.25rem 1rem;
+}
+
+.sort-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 1.25rem;
 }
 
 .sort-options {
@@ -345,12 +472,12 @@ body {
 }
 
 .sort-chip {
-  padding: 0.35rem 0.75rem;
+  padding: 0.5rem 1rem;
   border: 1.5px solid var(--border);
-  border-radius: 16px;
+  border-radius: 20px;
   background: white;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
   transition: all 0.2s;
   color: var(--text);
@@ -783,10 +910,82 @@ body {
 /* ===== Footer ===== */
 .footer {
   background: var(--charcoal);
-  color: rgba(255, 255, 255, 0.7);
-  text-align: center;
-  padding: 1.5rem;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 2.5rem 1.5rem 0;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.footer-contact h4,
+.footer-address h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.footer-content p {
   font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-content a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 1.25rem 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== Zalo Floating Button ===== */
+.zalo-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 104, 255, 0.4);
+  z-index: 900;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+
+.zalo-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(0, 104, 255, 0.55);
+}
+
+.zalo-icon {
+  width: 60px;
+  height: 60px;
 }
 
 /* ===== Responsive ===== */
