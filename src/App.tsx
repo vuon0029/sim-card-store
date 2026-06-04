@@ -153,7 +153,7 @@ function AppContent() {
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-info">
-            <h3>SIM Số Đẹp Vietnam</h3>
+            <h3>Sim Đệ Nhất</h3>
             <p>Chuyên cung cấp SIM số đẹp các mạng Viettel, Mobifone, Vinaphone.</p>
             <p>Chỉ hiển thị và tư vấn — không mua bán trực tuyến.</p>
           </div>
@@ -171,7 +171,7 @@ function AppContent() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2024 SIM Số Đẹp Vietnam. All rights reserved.</p>
+          <p>© 2024 Sim Đệ Nhất. All rights reserved.</p>
         </div>
       </footer>
     </div>
