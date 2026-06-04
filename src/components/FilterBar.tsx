@@ -7,6 +7,10 @@ export { PRICE_MIN, PRICE_MAX } from './PriceRangeSlider';
 interface FilterBarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  prefixQuery: string;
+  onPrefixChange: (query: string) => void;
+  suffixQuery: string;
+  onSuffixChange: (query: string) => void;
   selectedCarrier: CarrierType;
   onCarrierChange: (carrier: CarrierType) => void;
   selectedCategory: CategoryType;
@@ -21,6 +25,10 @@ const categories: CategoryType[] = ['All', 'Phong Thủy', 'Lộc Phát', 'Thầ
 export function FilterBar({
   searchQuery,
   onSearchChange,
+  prefixQuery,
+  onPrefixChange,
+  suffixQuery,
+  onSuffixChange,
   selectedCarrier,
   onCarrierChange,
   selectedCategory,
@@ -29,12 +37,26 @@ export function FilterBar({
   onPriceRangeChange,
 }: FilterBarProps) {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [showPrefix, setShowPrefix] = useState(false);
+  const [showSuffix, setShowSuffix] = useState(false);
 
   // Count active filters for the summary
   const activeFilters: string[] = [];
-  if (searchQuery) activeFilters.push(`Số: "${searchQuery}"`);
+  if (searchQuery) activeFilters.push(`Chứa: "${searchQuery}"`);
+  if (prefixQuery) activeFilters.push(`Đầu: ${prefixQuery}`);
+  if (suffixQuery) activeFilters.push(`Đuôi: ${suffixQuery}`);
   if (selectedCarrier !== 'All') activeFilters.push(selectedCarrier);
   if (selectedCategory !== 'All') activeFilters.push(selectedCategory);
+
+  const handleClearPrefix = () => {
+    onPrefixChange('');
+    setShowPrefix(false);
+  };
+
+  const handleClearSuffix = () => {
+    onSuffixChange('');
+    setShowSuffix(false);
+  };
 
   return (
     <div className="filter-bar">
@@ -45,7 +67,6 @@ export function FilterBar({
         aria-controls="filter-content"
       >
         <span className="filter-toggle-left">
-          <span className="filter-toggle-icon">🔍</span>
           <span className="filter-toggle-text">
             {isExpanded ? 'Ẩn bộ lọc' : 'Hiện bộ lọc tìm số'}
           </span>
@@ -56,7 +77,6 @@ export function FilterBar({
           </span>
         )}
         <span className={`filter-toggle-arrow ${isExpanded ? 'expanded' : ''}`}>
-          ▼
         </span>
       </button>
 
@@ -66,7 +86,7 @@ export function FilterBar({
       >
         <div className="filter-section">
           <label htmlFor="search-input" className="filter-label">
-            🔢 Tìm theo số
+            Tìm theo số
           </label>
           <input
             id="search-input"
@@ -75,12 +95,77 @@ export function FilterBar({
             placeholder="Nhập số cần tìm (VD: 888, 39, 68)..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            aria-label="Tìm kiếm số SIM"
+            aria-label="Tìm số chứa"
           />
+
+          {/* Prefix/Suffix - always in a row */}
+          <div className="search-extras">
+            {(showPrefix || prefixQuery) ? (
+              <div className="search-extra-field">
+                <label htmlFor="prefix-input" className="search-extra-label">Đầu số</label>
+                <div className="search-extra-input-row">
+                  <input
+                    id="prefix-input"
+                    type="text"
+                    className="search-extra-input"
+                    placeholder="VD: 090, 0914..."
+                    value={prefixQuery}
+                    onChange={(e) => onPrefixChange(e.target.value)}
+                    autoFocus
+                  />
+                  <button
+                    className="search-extra-clear"
+                    onClick={handleClearPrefix}
+                    aria-label="Xóa đầu số"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                className="search-extra-pill"
+                onClick={() => setShowPrefix(true)}
+              >
+                + Đầu số
+              </button>
+            )}
+
+            {(showSuffix || suffixQuery) ? (
+              <div className="search-extra-field">
+                <label htmlFor="suffix-input" className="search-extra-label">Đuôi số</label>
+                <div className="search-extra-input-row">
+                  <input
+                    id="suffix-input"
+                    type="text"
+                    className="search-extra-input"
+                    placeholder="VD: 8888, 6789..."
+                    value={suffixQuery}
+                    onChange={(e) => onSuffixChange(e.target.value)}
+                    autoFocus
+                  />
+                  <button
+                    className="search-extra-clear"
+                    onClick={handleClearSuffix}
+                    aria-label="Xóa đuôi số"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                className="search-extra-pill"
+                onClick={() => setShowSuffix(true)}
+              >
+                + Đuôi số
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="filter-section">
-          <label className="filter-label">📡 Chọn nhà mạng</label>
+          <label className="filter-label">Chọn nhà mạng</label>
           <div className="filter-chips" role="group" aria-label="Lọc theo nhà mạng">
             {carriers.map((carrier) => (
               <button
@@ -96,7 +181,7 @@ export function FilterBar({
         </div>
 
         <div className="filter-section">
-          <label className="filter-label">✨ Chọn loại số</label>
+          <label className="filter-label">Chọn loại số</label>
           <div className="filter-chips" role="group" aria-label="Lọc theo loại số">
             {categories.map((category) => (
               <button
@@ -112,7 +197,7 @@ export function FilterBar({
         </div>
 
         <div className="filter-section">
-          <label className="filter-label">💰 Khoảng giá</label>
+          <label className="filter-label">Khoảng giá</label>
           <PriceRangeSlider
             priceRange={priceRange}
             onPriceRangeChange={onPriceRangeChange}

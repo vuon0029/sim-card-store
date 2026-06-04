@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/formatPrice';
+import { CarrierLogo } from './CarrierLogo';
 import type { InquiryForm } from '../types';
 
 interface CartProps {
@@ -61,7 +62,7 @@ export function Cart({ isOpen, onClose }: CartProps) {
     <div className="cart-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Giỏ hàng">
       <div className="cart-panel" onClick={(e) => e.stopPropagation()}>
         <div className="cart-header">
-          <h2>🛒 Giỏ hàng ({items.length})</h2>
+          <h2>Giỏ hàng ({items.length})</h2>
           <button className="close-btn" onClick={onClose} aria-label="Đóng giỏ hàng">
             ✕
           </button>
@@ -69,7 +70,6 @@ export function Cart({ isOpen, onClose }: CartProps) {
 
         {submitSuccess ? (
           <div className="success-message">
-            <span className="success-icon">✅</span>
             <h3>Gửi yêu cầu thành công!</h3>
             <p>Đội ngũ của chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>
           </div>
@@ -156,7 +156,6 @@ export function Cart({ isOpen, onClose }: CartProps) {
           <>
             {items.length === 0 ? (
               <div className="cart-empty">
-                <span className="empty-cart-icon">📋</span>
                 <p>Chưa có số SIM nào trong giỏ</p>
                 <p className="cart-hint">Thêm số SIM bạn quan tâm để gửi yêu cầu tư vấn</p>
               </div>
@@ -164,23 +163,33 @@ export function Cart({ isOpen, onClose }: CartProps) {
               <>
                 <ul className="cart-items">
                   {items.map((item) => (
-                    <li key={item.simCard.id} className="cart-item">
+                    <li key={item.simCard.id} className={`cart-sim-card cart-sim-${item.simCard.carrier.toLowerCase()}`}>
+                      <div className="cart-sim-top">
+                        <CarrierLogo carrier={item.simCard.carrier} className="cart-item-logo" />
+                        <button
+                          className="cart-item-remove"
+                          onClick={() => removeFromCart(item.simCard.id)}
+                          aria-label={`Xóa ${item.simCard.number}`}
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                      <div className="cart-sim-chip"></div>
                       <div className="cart-item-info">
                         <span className="cart-item-number">{item.simCard.number}</span>
-                        <span className="cart-item-meta">
-                          {item.simCard.carrier} • {formatPrice(item.simCard.price)}
-                        </span>
+                        <span className="cart-item-price">{formatPrice(item.simCard.price)}</span>
                       </div>
-                      <button
-                        className="cart-item-remove"
-                        onClick={() => removeFromCart(item.simCard.id)}
-                        aria-label={`Xóa ${item.simCard.number}`}
-                      >
-                        ✕
-                      </button>
                     </li>
                   ))}
                 </ul>
+                <div className="cart-summary">
+                  <div className="cart-summary-total">
+                    <span>Tổng cộng ({items.length} số)</span>
+                    <span className="cart-summary-total-price">
+                      {formatPrice(items.reduce((sum, item) => sum + item.simCard.price, 0))}
+                    </span>
+                  </div>
+                </div>
                 <div className="cart-footer">
                   <button className="btn-clear" onClick={clearCart}>
                     Xóa tất cả

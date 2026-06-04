@@ -1,9 +1,6 @@
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-    maximumFractionDigits: 0,
-  }).format(price);
+  const thousands = price / 1000;
+  return `${new Intl.NumberFormat('vi-VN').format(thousands)}K`;
 }
 
 export function formatPhoneDisplay(number: string): string {

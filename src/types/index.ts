@@ -25,3 +25,5 @@ export type CarrierType = 'Viettel' | 'Mobifone' | 'Vinaphone' | 'All';
 export type CategoryType = 'Phong Thủy' | 'Lộc Phát' | 'Thần Tài' | 'Số Đẹp' | 'Giá Rẻ' | 'All';
 
 export type SortType = 'random' | 'price-asc' | 'price-desc' | 'newest' | 'oldest';
+
+export type ViewType = 'card' | 'list';

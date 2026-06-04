@@ -6,6 +6,7 @@
   --accent: #EE0033;
   --bg: #f5f5f5;
   --bg-card: #ffffff;
+  --bg-secondary: #f0f0f0;
   --text: #1a1a1a;
   --text-light: #666666;
   --border: #e0e0e0;
@@ -18,6 +19,80 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --radius: 12px;
   --radius-sm: 8px;
+}
+
+[data-theme="dark"] {
+  --primary: #ff3355;
+  --primary-hover: #e6002e;
+  --secondary: #e0e0e0;
+  --accent: #ff3355;
+  --bg: #121212;
+  --bg-card: #1e1e1e;
+  --bg-secondary: #2a2a2a;
+  --text: #f0f0f0;
+  --text-light: #a0a0a0;
+  --border: #333333;
+  --success: #4ade80;
+  --success-bg: #14532d;
+  --charcoal: #e0e0e0;
+  --dark-gray: #cccccc;
+  --medium-gray: #999999;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark mode overrides for hardcoded whites */
+[data-theme="dark"] .cart-panel,
+[data-theme="dark"] .inquiry-panel {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .sort-chip,
+[data-theme="dark"] .filter-chip,
+[data-theme="dark"] .compact-cart-btn,
+[data-theme="dark"] .pagination-btn,
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] .btn-clear,
+[data-theme="dark"] .search-extra-pill:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+[data-theme="dark"] .compact-inquiry-btn {
+  background: #444;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .compact-inquiry-btn:hover {
+  background: #555;
+  border-color: #666;
+}
+
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .search-extra-input,
+[data-theme="dark"] .pagination-input,
+[data-theme="dark"] .inquiry-form input,
+[data-theme="dark"] .inquiry-form textarea {
+  background: var(--bg-secondary);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .go-to-top-fab {
+  background: var(--text-light);
+}
+
+[data-theme="dark"] .header,
+[data-theme="dark"] .footer {
+  background: #2d2d2d;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] .view-toggle-btn.active,
+[data-theme="dark"] .sort-chip.active {
+  background: var(--charcoal);
+  color: #1a1a1a;
 }
 
 * {
@@ -69,6 +144,32 @@ body {
   justify-content: space-between;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -112,8 +213,23 @@ body {
   background: var(--primary-hover);
 }
 
+.cart-bounce {
+  animation: cartBounce 0.5s ease;
+}
+
+@keyframes cartBounce {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-6px); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-3px); }
+  80% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
 .cart-icon {
-  font-size: 1.2rem;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .cart-badge {
@@ -243,6 +359,89 @@ body {
 .search-input:focus {
   outline: none;
   border-color: var(--primary);
+}
+
+/* Search extras - prefix/suffix pills and inputs */
+.search-extras {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-extra-pill {
+  padding: 0.6rem 1.1rem;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.search-extra-pill:hover {
+  border-color: var(--charcoal);
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow);
+}
+
+.search-extra-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.search-extra-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  white-space: nowrap;
+  min-width: 50px;
+}
+
+.search-extra-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.search-extra-input {
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  width: 100%;
+  max-width: 180px;
+  transition: border-color 0.2s;
+}
+
+.search-extra-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.search-extra-clear {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.search-extra-clear:hover {
+  color: var(--primary);
 }
 
 .filter-chips {
@@ -408,6 +607,46 @@ body {
   gap: 0.5rem;
 }
 
+.sort-bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.view-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: all 0.2s;
+}
+
+.view-toggle-btn:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.view-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--text);
+}
+
+.view-toggle-btn.active {
+  background: var(--charcoal);
+  color: white;
+}
+
 .sort-toggle {
   display: flex;
   align-items: center;
@@ -511,26 +750,183 @@ body {
   gap: 1rem;
 }
 
+/* ===== Compact List View ===== */
+.compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+  gap: 0.75rem;
+}
+
+.compact-item:hover {
+  border-color: var(--charcoal);
+  box-shadow: var(--shadow);
+}
+
+.compact-item.in-cart {
+  border-color: var(--success);
+  background: var(--success-bg);
+}
+
+.compact-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.compact-item-logo {
+  height: 18px;
+  width: 50px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.compact-item-number {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.compact-item-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.compact-item-price {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.compact-item-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.compact-cart-btn,
+.compact-inquiry-btn {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--text);
+}
+
+.compact-cart-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.compact-cart-btn.remove {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.compact-inquiry-btn {
+  border-color: var(--charcoal);
+  background: var(--charcoal);
+  color: white;
+}
+
+.compact-inquiry-btn:hover {
+  background: var(--text);
+  border-color: var(--text);
+}
+
 /* ===== SIM Card Item ===== */
 .sim-card-item {
-  background: var(--bg-card);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 14px;
   padding: 1.25rem;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  height: 240px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
 .sim-card-item:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.sim-card-item.in-cart {
-  border-color: var(--success);
-  background: var(--success-bg);
+.sim-card-item.in-cart .sim-card-content {
+  opacity: 1;
+}
+
+/* Cart overlay - darkens card and shows cart icon */
+.sim-card-cart-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 14px;
+}
+
+.sim-card-cart-icon {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* Card content wrapper */
+.sim-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.sim-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+}
+
+/* Carrier color themes */
+.sim-card-viettel {
+  background: linear-gradient(135deg, #b5050f 0%, #8a040c 60%, #5c0308 100%);
+}
+
+.sim-card-mobifone {
+  background: linear-gradient(135deg, #004a8c 0%, #003a6e 60%, #002a50 100%);
+}
+
+.sim-card-vinaphone {
+  background: linear-gradient(135deg, #0e3d75 0%, #0a2d5a 60%, #061e40 100%);
 }
 
 .sim-card-top {
@@ -540,79 +936,105 @@ body {
   gap: 0.5rem;
 }
 
-.carrier-logo {
-  width: 80px;
-  height: 28px;
-  flex-shrink: 0;
-}
-
-.sim-card-number {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.5px;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-.sim-card-details {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.sim-card-carrier {
-  background: var(--dark-gray);
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
+.sim-card-logo {
+  height: 22px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
 }
 
 .sim-card-category {
-  background: var(--primary);
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+/* SIM chip */
+.sim-card-chip {
+  width: 40px;
+  height: 30px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #f5dc6e 0%, #e8c030 40%, #c8a020 100%);
+  border: 1px solid #b8901a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sim-card-chip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  right: 3px;
+  height: 1px;
+  background: #b8901a;
+}
+
+.sim-card-chip::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 1px;
+  bottom: 3px;
+  background: #b8901a;
+}
+
+.sim-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sim-card-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .sim-card-description {
-  color: var(--text-light);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.82rem;
   font-style: italic;
-}
-
-.sim-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
+  margin: 0;
 }
 
 .sim-card-price {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--primary);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .add-to-cart-btn {
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--primary);
-  border-radius: var(--radius-sm);
-  background: white;
-  color: var(--primary);
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.95);
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
   transition: all 0.2s;
+  backdrop-filter: blur(4px);
 }
 
 .add-to-cart-btn:hover {
-  background: var(--primary);
-  color: white;
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.95);
 }
 
 .add-to-cart-btn.remove {
@@ -622,8 +1044,107 @@ body {
 }
 
 .add-to-cart-btn.remove:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
+  background: #16a34a;
+  border-color: #16a34a;
+}
+
+/* SIM card footer actions */
+.sim-card-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.inquiry-btn {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1a1a;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.inquiry-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.inquiry-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===== Inquiry Modal ===== */
+.inquiry-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.inquiry-panel {
+  background: white;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.2s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.inquiry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.inquiry-header h2 {
+  font-size: 1.2rem;
+}
+
+.inquiry-sim-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.inquiry-sim-logo {
+  height: 20px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+  align-self: flex-start;
+}
+
+.inquiry-sim-number {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.inquiry-sim-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* ===== Empty State ===== */
@@ -666,7 +1187,7 @@ body {
   width: 100%;
   max-width: 450px;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -685,6 +1206,7 @@ body {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--border);
+  flex-shrink: 0;
 }
 
 .cart-header h2 {
@@ -709,47 +1231,129 @@ body {
   list-style: none;
   flex: 1;
   overflow-y: auto;
+  padding: 0.5rem;
+  min-height: 0;
 }
 
-.cart-item {
+.cart-sim-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+/* Top row: logo left, remove right */
+.cart-sim-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
+.cart-item-logo {
+  height: 20px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+/* Remove button - top right, pill style */
+.cart-item-remove {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  letter-spacing: 0.3px;
+}
+
+.cart-item-remove:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.cart-item-remove:active {
+  transform: scale(0.95);
+}
+
+/* SIM chip - middle left */
+.cart-sim-chip {
+  width: 36px;
+  height: 28px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #f5dc6e 0%, #e8c030 40%, #c8a020 100%);
+  border: 1px solid #b8901a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  position: relative;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.cart-sim-chip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  right: 3px;
+  height: 1px;
+  background: #b8901a;
+}
+
+.cart-sim-chip::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 1px;
+  bottom: 3px;
+  background: #b8901a;
+}
+
+/* Card info */
 .cart-item-info {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  margin-top: auto;
 }
 
 .cart-item-number {
   font-weight: 700;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 1.05rem;
+  color: #fff;
+  letter-spacing: 0.5px;
 }
 
-.cart-item-meta {
-  font-size: 0.8rem;
-  color: var(--text-light);
+.cart-item-price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.cart-item-remove {
-  background: none;
-  border: none;
-  color: var(--text-light);
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+/* Viettel - Red theme */
+.cart-sim-viettel {
+  background: linear-gradient(135deg, #b5050f 0%, #8a040c 60%, #5c0308 100%);
 }
 
-.cart-item-remove:hover {
-  background: #fee2e2;
-  color: var(--primary);
+/* Mobifone - Blue theme */
+.cart-sim-mobifone {
+  background: linear-gradient(135deg, #004a8c 0%, #003a6e 60%, #002a50 100%);
+}
+
+/* Vinaphone - Dark blue/Navy theme */
+.cart-sim-vinaphone {
+  background: linear-gradient(135deg, #0e3d75 0%, #0a2d5a 60%, #061e40 100%);
 }
 
 /* Cart Empty */
@@ -770,13 +1374,68 @@ body {
   margin-top: 0.5rem;
 }
 
+/* Cart Summary */
+.cart-summary {
+  border-top: 1px solid var(--border);
+  padding: 1rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.cart-summary-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.cart-summary-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+}
+
+.cart-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.cart-summary-number {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--text);
+}
+
+.cart-summary-price {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.cart-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cart-summary-total-price {
+  color: var(--primary);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
 /* Cart Footer */
 .cart-footer {
   display: flex;
   gap: 0.75rem;
   padding-top: 1rem;
   border-top: 2px solid var(--border);
-  margin-top: 1rem;
+  flex-shrink: 0;
 }
 
 .btn-clear {
@@ -959,6 +1618,132 @@ body {
   padding: 1.25rem 0;
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1.25rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s;
+  color: var(--text);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--charcoal);
+  background: var(--charcoal);
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.pagination-jump {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pagination-input {
+  width: 60px;
+  padding: 0.4rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.pagination-input::-webkit-outer-spin-button,
+.pagination-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pagination-input:focus {
+  outline: none;
+  border-color: var(--charcoal);
+}
+
+.pagination-go-btn {
+  padding: 0.4rem 0.75rem;
+}
+
+/* ===== Infinite Scroll Loader ===== */
+.infinite-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 0;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.infinite-loader-failed {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loader-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--charcoal);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Go To Top Button ===== */
+.go-to-top-fab {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid --var(--primary);
+  background: var(--charcoal);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 900;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeIn 0.2s ease;
+}
+
+.go-to-top-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* ===== Zalo Floating Button ===== */

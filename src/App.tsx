@@ -1,13 +1,16 @@
 import { useState, useMemo, useRef } from 'react';
 import { CartProvider } from './context/CartContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { FilterBar, PRICE_MIN, PRICE_MAX } from './components/FilterBar';
 import { SortBar } from './components/SortBar';
 import { SimCardList } from './components/SimCardList';
 import { Cart } from './components/Cart';
+import { InquiryModal } from './components/InquiryModal';
 import { ZaloButton } from './components/ZaloButton';
+import { GoToTopButton } from './components/GoToTopButton';
 import { simCards } from './data/simCards';
-import type { CarrierType, CategoryType, SortType, SimCard } from './types';
+import type { CarrierType, CategoryType, SortType, ViewType, SimCard } from './types';
 import './App.css';
 
 // Seeded shuffle for consistent "random" order per session
@@ -25,22 +28,43 @@ function shuffleArray(arr: SimCard[], seed: number): SimCard[] {
 function AppContent() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [prefixQuery, setPrefixQuery] = useState('');
+  const [suffixQuery, setSuffixQuery] = useState('');
   const [selectedCarrier, setSelectedCarrier] = useState<CarrierType>('All');
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>('All');
   const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
   const [sortType, setSortType] = useState<SortType>('random');
+  const [viewType, setViewType] = useState<ViewType>('card');
+  const [inquirySimCard, setInquirySimCard] = useState<SimCard | null>(null);
   const randomSeed = useRef(Date.now());
 
   const filteredAndSortedSimCards = useMemo(() => {
     const filtered = simCards.filter((sim) => {
-      // Filter by search query (match against number digits)
+      const digitsOnly = sim.number.replace(/\D/g, '');
+
+      // Filter by search query (contains)
       if (searchQuery) {
-        const digitsOnly = sim.number.replace(/\D/g, '');
         const searchDigits = searchQuery.replace(/\D/g, '');
         if (searchDigits && !digitsOnly.includes(searchDigits)) {
           return false;
         }
         if (!searchDigits && !sim.number.toLowerCase().includes(searchQuery.toLowerCase())) {
+          return false;
+        }
+      }
+
+      // Filter by prefix (starts with)
+      if (prefixQuery) {
+        const prefixDigits = prefixQuery.replace(/\D/g, '');
+        if (prefixDigits && !digitsOnly.startsWith(prefixDigits)) {
+          return false;
+        }
+      }
+
+      // Filter by suffix (ends with)
+      if (suffixQuery) {
+        const suffixDigits = suffixQuery.replace(/\D/g, '');
+        if (suffixDigits && !digitsOnly.endsWith(suffixDigits)) {
           return false;
         }
       }
@@ -78,7 +102,7 @@ function AppContent() {
       default:
         return shuffleArray(filtered, randomSeed.current);
     }
-  }, [searchQuery, selectedCarrier, selectedCategory, priceRange, sortType]);
+  }, [searchQuery, prefixQuery, suffixQuery, selectedCarrier, selectedCategory, priceRange, sortType]);
 
   return (
     <div className="app">
@@ -88,6 +112,10 @@ function AppContent() {
           <FilterBar
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
+            prefixQuery={prefixQuery}
+            onPrefixChange={setPrefixQuery}
+            suffixQuery={suffixQuery}
+            onSuffixChange={setSuffixQuery}
             selectedCarrier={selectedCarrier}
             onCarrierChange={setSelectedCarrier}
             selectedCategory={selectedCategory}
@@ -99,14 +127,28 @@ function AppContent() {
             sortType={sortType}
             onSortChange={setSortType}
             resultCount={filteredAndSortedSimCards.length}
+            viewType={viewType}
+            onViewChange={setViewType}
           />
-          <SimCardList simCards={filteredAndSortedSimCards} />
+          <SimCardList
+            simCards={filteredAndSortedSimCards}
+            viewType={viewType}
+            onInquiry={(sim) => setInquirySimCard(sim)}
+          />
         </div>
       </main>
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
+      {inquirySimCard && (
+        <InquiryModal
+          simCard={inquirySimCard}
+          onClose={() => setInquirySimCard(null)}
+        />
+      )}
+
       {/* Zalo floating button */}
       <ZaloButton />
+      <GoToTopButton />
 
       <footer className="footer">
         <div className="footer-content">
@@ -117,10 +159,10 @@ function AppContent() {
           </div>
           <div className="footer-contact">
             <h4>Liên hệ tư vấn</h4>
-            <p>📞 Hotline: <a href="tel:0901234567">0901 234 567</a></p>
-            <p>💬 Zalo: <a href="https://zalo.me/0901234567" target="_blank" rel="noopener noreferrer">0901 234 567</a></p>
-            <p>📧 Email: <a href="mailto:contact@simvietnam.vn">contact@simvietnam.vn</a></p>
-            <p>🕐 Thời gian làm việc: 8:00 – 21:00 (T2 – CN)</p>
+            <p>Hotline: <a href="tel:0901234567">0901 234 567</a></p>
+            <p>Zalo: <a href="https://zalo.me/0901234567" target="_blank" rel="noopener noreferrer">0901 234 567</a></p>
+            <p>Email: <a href="mailto:contact@simvietnam.vn">contact@simvietnam.vn</a></p>
+            <p>Thời gian làm việc: 8:00 – 21:00 (T2 – CN)</p>
           </div>
           <div className="footer-address">
             <h4>Địa chỉ</h4>
@@ -138,9 +180,11 @@ function AppContent() {
 
 function App() {
   return (
-    <CartProvider>
-      <AppContent />
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 
