@@ -1799,6 +1799,76 @@ body {
   .main-content {
     padding: 1rem 0.5rem;
   }
+
+  /* Compact list view - stack on mobile */
+  .compact-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .compact-item-left {
+    gap: 0.5rem;
+  }
+
+  .compact-item-right {
+    flex-shrink: 1;
+    justify-content: space-between;
+  }
+
+  .compact-item-number {
+    font-size: 0.88rem;
+  }
+
+  /* Sort bar controls */
+  .sort-bar-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .sort-bar-controls {
+    justify-content: space-between;
+  }
+
+  /* Pagination */
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pagination-jump {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Search extras - stack on narrow screens */
+  .search-extras {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-extra-field {
+    width: 100%;
+  }
+
+  .search-extra-input {
+    max-width: none;
+  }
+
+  /* Inquiry modal */
+  .inquiry-panel {
+    padding: 1rem;
+    max-height: 95vh;
+  }
+
+  /* Footer */
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1812,6 +1882,61 @@ body {
   }
 
   .sim-card-number {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+  }
+
+  .sim-card-item {
+    height: 220px;
+    padding: 1rem;
+  }
+
+  .sim-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .sim-card-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .sim-card-price {
+    font-size: 0.95rem;
+  }
+
+  /* Compact list - tighter on very small screens */
+  .compact-item-actions {
+    gap: 0.3rem;
+  }
+
+  .compact-cart-btn,
+  .compact-inquiry-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .compact-item-logo {
+    width: 40px;
+    height: 16px;
+  }
+
+  /* Header */
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* View toggle */
+  .view-toggle-btn {
+    padding: 0.35rem 0.5rem;
   }
 }
