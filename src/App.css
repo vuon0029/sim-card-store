@@ -367,7 +367,7 @@ body {
   gap: 0.6rem;
   margin-top: 0.75rem;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .search-extra-pill {

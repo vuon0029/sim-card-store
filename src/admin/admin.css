@@ -113,12 +113,69 @@
   padding: 0.75rem 1.5rem;
   background: #1e293b;
   color: #f8fafc;
+  position: relative;
 }
 
 .admin-nav__brand {
   font-weight: 700;
   font-size: 1.1rem;
   margin-right: auto;
+}
+
+.admin-nav__toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.admin-nav__hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #f8fafc;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.admin-nav__hamburger::before,
+.admin-nav__hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: #f8fafc;
+  transition: transform 0.3s;
+}
+
+.admin-nav__hamburger::before {
+  top: -7px;
+}
+
+.admin-nav__hamburger::after {
+  top: 7px;
+}
+
+.admin-nav__hamburger--open {
+  background: transparent;
+}
+
+.admin-nav__hamburger--open::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.admin-nav__hamburger--open::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.admin-nav__menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .admin-nav__links {
@@ -178,6 +235,49 @@
 
 [data-theme="dark"] .admin-content {
   background: #1e293b;
+}
+
+/* Mobile responsive nav */
+@media (max-width: 768px) {
+  .admin-nav {
+    flex-wrap: wrap;
+  }
+
+  .admin-nav__toggle {
+    display: block;
+  }
+
+  .admin-nav__menu {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding-top: 0.75rem;
+    border-top: 1px solid #334155;
+    margin-top: 0.75rem;
+  }
+
+  .admin-nav__menu--open {
+    display: flex;
+  }
+
+  .admin-nav__links {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .admin-nav__links a {
+    padding: 0.75rem 1rem;
+  }
+
+  .admin-nav__logout {
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
 }
 
 
