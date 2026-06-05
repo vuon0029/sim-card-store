@@ -11,7 +11,7 @@ const rootElement = document.getElementById('root')!;
 
 createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter basename="/sim-card-store">
+    <BrowserRouter>
       <ThemeProvider>
         <CartProvider>
           <AuthProvider>

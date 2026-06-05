@@ -6,5 +6,4 @@ export default defineConfig({
   plugins: [
     react(),
   ],
-  base: '/sim-card-store/',
 })
