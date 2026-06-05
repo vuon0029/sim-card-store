@@ -20,12 +20,14 @@ export function SimCardItem({ simCard, onInquiry }: SimCardItemProps) {
     }
   };
 
+  console.log("simCard.category",simCard.category)
+
   return (
     <div className={`sim-card-item sim-card-${simCard.carrier.toLowerCase()} ${inCart ? 'in-cart' : ''}`}>
       <div className="sim-card-content">
         <div className="sim-card-top">
           <CarrierLogo carrier={simCard.carrier} className="sim-card-logo" />
-          <span className="sim-card-category">{simCard.category}</span>
+          {simCard.category ? (<span className="sim-card-category">{simCard.category}</span>) : null }
         </div>
         <div className="sim-card-chip"></div>
         <div className="sim-card-body">

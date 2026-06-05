@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { CarrierType, CategoryType } from '../types';
+import type { CarrierType, CategoryType, SimCard } from '../types';
 import { PriceRangeSlider } from './PriceRangeSlider';
 
 export { PRICE_MIN, PRICE_MAX } from './PriceRangeSlider';
@@ -17,6 +17,7 @@ interface FilterBarProps {
   onCategoryChange: (category: CategoryType) => void;
   priceRange: [number, number];
   onPriceRangeChange: (range: [number, number]) => void;
+  simCards: SimCard[];
 }
 
 const carriers: CarrierType[] = ['All', 'Viettel', 'Mobifone', 'Vinaphone'];
@@ -35,6 +36,7 @@ export function FilterBar({
   onCategoryChange,
   priceRange,
   onPriceRangeChange,
+  simCards,
 }: FilterBarProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showPrefix, setShowPrefix] = useState(false);
@@ -201,6 +203,7 @@ export function FilterBar({
           <PriceRangeSlider
             priceRange={priceRange}
             onPriceRangeChange={onPriceRangeChange}
+            simCards={simCards}
           />
         </div>
       </div>

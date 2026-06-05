@@ -1,6 +1,6 @@
-import { useRef, useCallback } from 'react';
-import { simCards } from '../data/simCards';
+import { useRef, useCallback, useMemo } from 'react';
 import { formatPrice } from '../utils/formatPrice';
+import type { SimCard } from '../types';
 
 export const PRICE_MIN = 500000; // 500K VND
 export const PRICE_MAX = 500000000; // 500M VND
@@ -10,6 +10,7 @@ const NUM_BUCKETS = 40;
 interface PriceRangeSliderProps {
   priceRange: [number, number];
   onPriceRangeChange: (range: [number, number]) => void;
+  simCards: SimCard[];
 }
 
 // Logarithmic scale helpers
@@ -28,13 +29,13 @@ function percentToPrice(percent: number): number {
 }
 
 // Build histogram buckets from all SIM card prices
-function buildHistogram(): number[] {
+function buildHistogram(cards: SimCard[]): number[] {
   const buckets = new Array(NUM_BUCKETS).fill(0);
   const minLog = Math.log(PRICE_MIN);
   const maxLog = Math.log(PRICE_MAX);
   const bucketWidth = (maxLog - minLog) / NUM_BUCKETS;
 
-  for (const sim of simCards) {
+  for (const sim of cards) {
     const logPrice = Math.log(Math.max(PRICE_MIN, Math.min(sim.price, PRICE_MAX)));
     const bucketIndex = Math.min(
       NUM_BUCKETS - 1,
@@ -45,10 +46,10 @@ function buildHistogram(): number[] {
   return buckets;
 }
 
-export function PriceRangeSlider({ priceRange, onPriceRangeChange }: PriceRangeSliderProps) {
+export function PriceRangeSlider({ priceRange, onPriceRangeChange, simCards }: PriceRangeSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef<'min' | 'max' | null>(null);
-  const histogram = useRef(buildHistogram()).current;
+  const histogram = useMemo(() => buildHistogram(simCards), [simCards]);
   const maxBucket = Math.max(...histogram, 1);
 
   const getPercentFromEvent = useCallback((clientX: number): number => {
