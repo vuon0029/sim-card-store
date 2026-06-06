@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { getFirestoreDb } from '../firebase/config';
 import type { SimCard, InquiryForm } from '../types';
 import { formatPrice } from '../utils/formatPrice';
 import { CarrierLogo } from './CarrierLogo';
@@ -33,15 +35,30 @@ export function InquiryModal({ simCard, onClose }: InquiryModalProps) {
       submittedAt: new Date().toISOString(),
     };
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log('Direct inquiry submitted:', inquiryData);
+    try {
+      // Save to Firestore
+      const db = getFirestoreDb();
+      await addDoc(collection(db, 'inquiries'), inquiryData);
 
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
+      // Send email notification via Cloud Function (fire-and-forget)
+      fetch(import.meta.env.VITE_FUNCTIONS_URL + '/sendInquiryEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inquiryData),
+      }).catch(() => {
+        // Email failure shouldn't block the success flow
+      });
 
-    setTimeout(() => {
-      onClose();
-    }, 3000);
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+
+      setTimeout(() => {
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error('Failed to submit inquiry:', error);
+      setIsSubmitting(false);
+    }
   };
 
   return (

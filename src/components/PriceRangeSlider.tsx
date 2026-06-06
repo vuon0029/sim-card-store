@@ -3,7 +3,7 @@ import { formatPrice } from '../utils/formatPrice';
 import type { SimCard } from '../types';
 
 export const PRICE_MIN = 500000; // 500K VND
-export const PRICE_MAX = 500000000; // 500M VND
+export const PRICE_MAX = 1000000000; // 1B VND
 const STEP = 100000; // 100K VND increments
 const NUM_BUCKETS = 40;
 
