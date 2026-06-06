@@ -41,7 +41,7 @@ export function InquiryModal({ simCard, onClose }: InquiryModalProps) {
       await addDoc(collection(db, 'inquiries'), inquiryData);
 
       // Send email notification via Cloud Function (fire-and-forget)
-      fetch(import.meta.env.VITE_FUNCTIONS_URL + '/sendInquiryEmail', {
+      fetch(import.meta.env.VITE_FUNCTIONS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inquiryData),
