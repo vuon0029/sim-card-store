@@ -1,23 +1,32 @@
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
+import * as admin from "firebase-admin";
+
+admin.initializeApp();
 
 const resendApiKey = defineSecret("RESEND_API_KEY");
 const adminEmail = defineSecret("ADMIN_EMAIL");
 
-interface InquiryPayload {
-  customer: {
-    name: string;
-    phone: string;
-    email: string;
-    idNumber: string;
-    message?: string;
-  };
-  simCard: {
-    number: string;
-    carrier: string;
-    price: number;
-  };
-  submittedAt: string;
+// Simple in-memory rate limiter (resets on cold start, which is fine)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 5; // max requests per IP
+const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return true;
+  }
+
+  entry.count++;
+  return false;
 }
 
 async function sendEmail(apiKey: string, to: string, subject: string, html: string) {
@@ -53,24 +62,54 @@ export const sendInquiryEmail = onRequest(
       return;
     }
 
-    const data = req.body as InquiryPayload;
+    // Rate limiting
+    const clientIp = req.ip || req.headers["x-forwarded-for"] as string || "unknown";
+    if (isRateLimited(clientIp)) {
+      res.status(429).json({ success: false, error: "Too many requests. Try again later." });
+      return;
+    }
 
-    if (!data?.customer?.name || !data?.customer?.phone || !data?.simCard?.number) {
-      res.status(400).send("Missing required fields");
+    const { inquiryId } = req.body;
+
+    if (!inquiryId || typeof inquiryId !== "string") {
+      res.status(400).json({ success: false, error: "Missing inquiryId" });
+      return;
+    }
+
+    // Verify the inquiry document exists in Firestore
+    const db = admin.firestore();
+    const docRef = db.collection("inquiries").doc(inquiryId);
+    const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      res.status(404).json({ success: false, error: "Inquiry not found" });
+      return;
+    }
+
+    const data = docSnap.data()!;
+    const customer = data.customer;
+    const simCard = data.simCard;
+
+    if (!customer?.name || !customer?.phone || !simCard?.number) {
+      res.status(400).json({ success: false, error: "Invalid inquiry data" });
+      return;
+    }
+
+    // Check if email was already sent (prevent replay)
+    if (data.emailSent) {
+      res.status(200).json({ success: true, message: "Email already sent" });
       return;
     }
 
     const apiKey = resendApiKey.value();
-    const admin = adminEmail.value();
-    const { customer, simCard } = data;
-
+    const adminAddr = adminEmail.value();
     const formattedPrice = new Intl.NumberFormat("vi-VN").format(simCard.price) + " ₫";
 
     try {
       // Email to admin
       await sendEmail(
         apiKey,
-        admin,
+        adminAddr,
         `[Yêu cầu tư vấn] ${simCard.number} - ${customer.name}`,
         `
           <h2>Yêu cầu tư vấn mới</h2>
@@ -113,6 +152,9 @@ export const sendInquiryEmail = onRequest(
           `
         );
       }
+
+      // Mark as sent to prevent replays
+      await docRef.update({ emailSent: true });
 
       res.status(200).json({ success: true });
     } catch (error) {

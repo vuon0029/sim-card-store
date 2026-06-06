@@ -38,13 +38,13 @@ export function InquiryModal({ simCard, onClose }: InquiryModalProps) {
     try {
       // Save to Firestore
       const db = getFirestoreDb();
-      await addDoc(collection(db, 'inquiries'), inquiryData);
+      const docRef = await addDoc(collection(db, 'inquiries'), inquiryData);
 
       // Send email notification via Cloud Function (fire-and-forget)
       fetch(import.meta.env.VITE_FUNCTIONS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(inquiryData),
+        body: JSON.stringify({ inquiryId: docRef.id }),
       }).catch(() => {
         // Email failure shouldn't block the success flow
       });
