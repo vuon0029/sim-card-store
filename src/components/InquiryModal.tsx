@@ -4,6 +4,7 @@ import { getFirestoreDb } from '../firebase/config';
 import type { SimCard, InquiryForm } from '../types';
 import { formatPrice } from '../utils/formatPrice';
 import { CarrierLogo } from './CarrierLogo';
+import { trackInquirySubmitted } from '../utils/analytics';
 
 interface InquiryModalProps {
   simCard: SimCard;
@@ -48,6 +49,8 @@ export function InquiryModal({ simCard, onClose }: InquiryModalProps) {
       }).catch(() => {
         // Email failure shouldn't block the success flow
       });
+
+      trackInquirySubmitted(simCard.number, simCard.carrier);
 
       setIsSubmitting(false);
       setSubmitSuccess(true);

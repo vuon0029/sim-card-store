@@ -4,8 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
+import { getFirebaseAnalytics } from './firebase/config';
 import './index.css';
 import App from './App';
+
+// Initialize analytics (non-blocking)
+getFirebaseAnalytics();
 
 const rootElement = document.getElementById('root')!;
 

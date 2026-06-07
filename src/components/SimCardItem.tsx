@@ -2,6 +2,7 @@ import type { SimCard } from '../types';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/formatPrice';
 import { CarrierLogo } from './CarrierLogo';
+import { trackAddToCart, trackRemoveFromCart, trackInquiryOpened } from '../utils/analytics';
 
 interface SimCardItemProps {
   simCard: SimCard;
@@ -15,12 +16,17 @@ export function SimCardItem({ simCard, onInquiry }: SimCardItemProps) {
   const handleToggleCart = () => {
     if (inCart) {
       removeFromCart(simCard.id);
+      trackRemoveFromCart(simCard.number);
     } else {
       addToCart(simCard);
+      trackAddToCart(simCard.number, simCard.carrier, simCard.price);
     }
   };
 
-  console.log("simCard.category",simCard.category)
+  const handleInquiry = () => {
+    trackInquiryOpened(simCard.number, simCard.carrier, simCard.price);
+    onInquiry(simCard);
+  };
 
   return (
     <div className={`sim-card-item sim-card-${simCard.carrier.toLowerCase()} ${inCart ? 'in-cart' : ''}`}>
@@ -58,7 +64,7 @@ export function SimCardItem({ simCard, onInquiry }: SimCardItemProps) {
           </button>
           <button
             className="inquiry-btn"
-            onClick={() => onInquiry(simCard)}
+            onClick={handleInquiry}
             aria-label={`Tư vấn ngay số ${simCard.number}`}
           >
             Tư vấn ngay

@@ -48,6 +48,11 @@ export function AdminLayout() {
                 Tải Lên
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/admin/analytics" onClick={() => setMenuOpen(false)}>
+                Thống Kê
+              </NavLink>
+            </li>
           </ul>
           <button className="admin-nav__logout" onClick={logout}>
             Đăng Xuất

@@ -5,6 +5,7 @@ import { AdminLayout } from './admin/AdminLayout';
 import { SimCardTable } from './admin/SimCardTable';
 import { SimCardForm } from './admin/SimCardForm';
 import { BulkUpload } from './admin/BulkUpload';
+import { AnalyticsPage } from './admin/AnalyticsPage';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="add" element={<SimCardForm />} />
         <Route path="edit/:id" element={<SimCardForm />} />
         <Route path="bulk-upload" element={<BulkUpload />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Route>
     </Routes>
   );

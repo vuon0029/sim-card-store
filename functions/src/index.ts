@@ -133,24 +133,30 @@ export const sendInquiryEmail = onRequest(
 
       // Email receipt to customer (only if they provided an email)
       if (customer.email) {
-        await sendEmail(
-          apiKey,
-          customer.email,
-          `Xác nhận yêu cầu tư vấn - Số ${simCard.number}`,
-          `
-            <h2>Xác nhận yêu cầu tư vấn</h2>
-            <p>Chào ${customer.name},</p>
-            <p>Chúng tôi đã nhận được yêu cầu tư vấn của bạn về số SIM sau:</p>
-            <div style="background:#f8fafc;padding:1rem;border-radius:8px;margin:1rem 0;">
-              <p style="margin:0;font-size:1.25rem;font-weight:bold;">${simCard.number}</p>
-              <p style="margin:0.25rem 0 0;">Nhà mạng: ${simCard.carrier} | Giá: ${formattedPrice}</p>
-            </div>
-            <p>Đội ngũ của chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất qua số điện thoại <strong>${customer.phone}</strong>.</p>
-            <p>Cảm ơn bạn đã quan tâm đến Sim Đệ Nhất!</p>
-            <hr>
-            <p style="font-size:0.8rem;color:#6b7280;">Đây là email tự động, vui lòng không trả lời.</p>
-          `
-        );
+        try {
+          await sendEmail(
+            apiKey,
+            customer.email,
+            `Xác nhận yêu cầu tư vấn - Số ${simCard.number}`,
+            `
+              <h2>Xác nhận yêu cầu tư vấn</h2>
+              <p>Chào ${customer.name},</p>
+              <p>Chúng tôi đã nhận được yêu cầu tư vấn của bạn về số SIM sau:</p>
+              <div style="background:#f8fafc;padding:1rem;border-radius:8px;margin:1rem 0;">
+                <p style="margin:0;font-size:1.25rem;font-weight:bold;">${simCard.number}</p>
+                <p style="margin:0.25rem 0 0;">Nhà mạng: ${simCard.carrier} | Giá: ${formattedPrice}</p>
+              </div>
+              <p>Đội ngũ của chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất qua số điện thoại <strong>${customer.phone}</strong>.</p>
+              <p>Cảm ơn bạn đã quan tâm đến Sim Đệ Nhất!</p>
+              <hr>
+              <p style="font-size:0.8rem;color:#6b7280;">Đây là email tự động, vui lòng không trả lời.</p>
+            `
+          );
+        } catch (customerEmailError) {
+          // Customer email may fail on free tier (can only send to verified emails)
+          // Don't fail the whole request — admin was already notified
+          console.warn("Customer email failed (expected on free tier):", customerEmailError);
+        }
       }
 
       // Mark as sent to prevent replays
